@@ -1,7 +1,7 @@
 (function(){
   'use strict';
 
-  angular.module('trs')
+  angular.module('adn.tables',[])
   .directive('columnsSelector', ColumnsSelector)
   .directive('btnColumnsSelector', BtnColumnsSelector);
 
@@ -13,7 +13,11 @@
         self.columns = [];
 
         self.toggle = function(column) {
-
+          column.isVisible = !column.isVisible;
+          var columnElement = angular.element('th[data-index='+ column.index +']');
+          var tableColumn = columnElement.closest('table').find('td[headers='+ column.id +']');
+          tableColumn.hide();
+          columnElement.hide();
         }
       },
       compile: function(element, attr) {
@@ -23,8 +27,7 @@
 
             var columns = table.find('th');
             angular.forEach(columns, function(column, idx){
-
-              ctlr.columns.push({index: idx, name: angular.element(column).text(), isVisible: true});
+              ctlr.columns.push({index: idx, name: angular.element(column).text(), isVisible: true, id: column.id});
               angular.element(column).attr('data-index', idx);
             });
             //scope.$apply();
@@ -40,9 +43,9 @@
       require: '^columnsSelector',
       link: function(scope, element, attr, columnCtrl){
         angular.forEach(columnCtrl.columns, function(column){
-          console.log(column);
+
           var newToggle = angular.element(addElement(column));
-          newToggle.on('click', function(){ alert('oi')});
+          newToggle.on('click', function(){ columnCtrl.toggle(column)});
           element.append(newToggle);
         });
       }

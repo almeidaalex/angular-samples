@@ -1,7 +1,7 @@
 (function(){
     'use strict';
 
-    angular.module('trs',[])
+    angular.module('sample-app')
       .controller('SampleController', SampleController);
 
     function SampleController(){

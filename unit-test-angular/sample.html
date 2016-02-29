@@ -5,15 +5,16 @@
    <script src="bower_components/jquery/dist/jquery.js"></script>
    <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
    <script src="bower_components/angular/angular.js"></script>
+   <script src="app/sample.app.js"></script>
    <script src="app/sample.ctrl.js"></script>
    <script src="app/columns.drv.js"></script>
  </head>
 
-  <body ng-app="trs">
+  <body ng-app="sample-app">
     <div ng-controller="SampleController as sc">
 
       <div class="container-fluid">
-        <div class="nenhuma" columns-selector="">
+        <div class="" columns-selector="">
           <div class="row">
             <div class="col-md-offset-11">
               <div class="btn-group">
@@ -25,28 +26,6 @@
                   Columns <span class="caret"></span>
                 </button>
                 <ul btn-columns-selector="" class="dropdown-menu dropdown-menu-right">
-
-
-                  <!-- <li>
-                      <a href="#">
-                        <div class="checkbox">
-                          <label>
-                            <input type="checkbox" value="">
-                            Year
-                          </label>
-                        </div>
-                      </a>
-                  </li>
-                  <li>
-                      <a href="#">
-                        <div class="checkbox">
-                          <label>
-                            <input type="checkbox" value="">
-                            Door
-                          </label>
-                        </div>
-                      </a>
-                  </li> -->
                 </ul>
               </div>
             </div>
@@ -55,18 +34,20 @@
             <table class="table table-condensed">
               <thead>
                 <tr>
-                  <th>Model</th>
-                  <th>Color</th>
-                  <th>Year</th>
-                  <th>Doors</th>
+                  <th id="m">Model</th>
+                  <th id="c">Color</th>
+                  <th id="y">Year</th>
+                  <th id="d">Doors</th>
+                  <th id="a">AirBag</th>
                 </tr>
               </thead>
               <tbody>
                 <tr ng-repeat="car in sc.cars">
-                  <td>{{car.model}}</td>
-                  <td>{{car.color}}</td>
-                  <td>{{car.year}}</td>
-                  <td>{{car.doors}}</td>
+                  <td headers="m">{{car.model}}</td>
+                  <td headers="c">{{car.color}}</td>
+                  <td headers="y">{{car.year}}</td>
+                  <td headers="d">{{car.doors}}</td>
+                  <td headers="a"><input type="checkbox" checked="{{car.airbag}}"></input></td>
                 </tr>
               </tbody>
             </table>
