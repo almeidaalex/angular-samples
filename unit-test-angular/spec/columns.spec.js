@@ -1,13 +1,24 @@
 'use strict';
 
 describe('A diretiva de seleção de coluna', function(){
-  var $compile, scope;
+  var $compile, scope, tableTemplate;
 
   beforeEach(module('adn.tables'));
 
   beforeEach(inject(function(_$compile_, _$rootScope_){
     $compile = _$compile_;
     scope = _$rootScope_.$new();
+    tableTemplate = '<div columns-selector="">' +
+                        '<table>' +
+                            '<thead><tr>'+
+                                '<th id="c1">Column1</th>' +
+                                '<th id="c2">Column2</th>' +
+                                '<th id="c3">Column2</th>' +
+                                '<th id="c4">Column2</th>' +
+                                '<th id="c5">Column2</th>' +
+                            '</tr></thead>' + 
+                         '</table>' +
+                     '</div>';
   }));
 
   it('deverá ler todos os headers da tabela e criar seus respectivos objetos', function(){
@@ -28,14 +39,47 @@ describe('A diretiva de seleção de coluna', function(){
   
   it('deverá ocultar uma coluna quando ela for setada para isVisible = false', function(){
       
-     var element = $compile('<div columns-selector=""><table><thead><tr><th id="c1">Column1</th><th id="c2">Column2</th></tr></thead></table></div>')(scope);
+     var element = $compile(tableTemplate)(scope);
      scope.$digest();
      var sc = element.scope();     
-     sc.toggle(sc.columns[0]);     
+     sc.toggle({}, sc.columns[0]);     
      scope.$digest();
      
-     expect(element.html()).not.toContains('Column1');
+     expect(angular.element(element.html()).find('th#c1').css('display')).toEqual('none');
   })
+  
+  it('deverá exibir uma coluna quando ela for setada para isVisible = true', function(){
+      
+     var element = $compile(tableTemplate)(scope);
+     scope.$digest();
+     var sc = element.scope();
+     sc.columns[0].isVisible = false;     
+     sc.toggle({}, sc.columns[0]);     
+     scope.$digest();
+     
+     expect(angular.element(element.html()).find('th#c1').css('display')).toEqual('table-cell');
+  })
+  
+   it('quando um valor de coluna padrão for definido, as demais colunas devem ficarem ocultas', function(){
+      scope.defaultColumns = [
+            {id:"c1"},
+            {id:"c3", isVisible: false},
+        ];
+        
+     scope.$digest();
+     var newTemplate = tableTemplate.replace('columns-selector=""','columns-selector="defaultColumns"');
+     var element = $compile(newTemplate)(scope);
+     scope.$digest();
+     var sc = element.scope();
+     
+     expect(sc.columns.length).toEqual(5);
+     
+     expect(angular.element(element.html()).find('th#c3').css('display')).toEqual('none');
+     expect(angular.element(element.html()).find('th#c2').css('display')).toEqual('none');
+     expect(angular.element(element.html()).find('th#c4').css('display')).toEqual('none');
+     expect(angular.element(element.html()).find('th#c5').css('display')).toEqual('none');
+  })
+  
   
   afterEach(function(){
       scope.$destroy();
