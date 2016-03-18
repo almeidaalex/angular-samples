@@ -1,0 +1,4 @@
+[http]
+    http://prxcorp-xv.intraservice.corp:8080/
+[https]
+    http://prxcorp-xv.intraservice.corp:8080/    

@@ -5,6 +5,7 @@
    <script src="bower_components/jquery/dist/jquery.js"></script>
    <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
    <script src="bower_components/angular/angular.js"></script>
+   <script src="bower_components/angular-cookies/angular-cookies.js"></script>    
    <script src="app/sample.app.js"></script>
    <script src="app/sample.ctrl.js"></script>
    <script src="app/columns.drv.js"></script>
@@ -14,7 +15,7 @@
     <div ng-controller="SampleController as sc">
 
       <div class="container-fluid">
-        <div class="" columns-selector="">
+        <div class="" columns-selector="" data-selector-key="sampleTable">
           <div class="row">
             <div class="col-md-offset-11">
               <div class="btn-group">
